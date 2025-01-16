@@ -13,7 +13,7 @@ class ConceptScreen extends StatelessWidget {
         child: Column(
           // Columnは縦に並べる時に使用。Columnのchildrenの中に実装するWidgetたちは縦に並ぶ。
           children: [
-            const DescriptionSection(), // これは42行目にあるWidgetを配置。コードが長い場合や使い回したい時に使う。
+            const DescriptionSection(), // これは55行目にあるWidgetを配置。コードが長い場合や使い回したい時に使う。
             Padding(
               // Paddingは外側に余白を付けることができる。
               padding: const EdgeInsets.symmetric(
