@@ -45,6 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // 入力中のメールアドレス表示するために保持する変数
+  String emailText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: 24),
+                Text(emailText),
                 const SizedBox(height: 150),
                 Form(
                   // Formウィジェットは、child内にある複数のフォームフィールド（TextFormFieldなど）をまとめて管理。
@@ -92,6 +97,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             return '有効なメールアドレスを入力してください';
                           }
                           return null;
+                        },
+                        onChanged: (value) {
+                          // onChangedがリアルタイムで入力中の文字列を返すメソッド。
+                          setState(() {
+                            // setStateを呼び出すと画面が再描画され画面が更新される。
+                            emailText = value;
+                          });
                         },
                       ),
                       const SizedBox(height: 16),

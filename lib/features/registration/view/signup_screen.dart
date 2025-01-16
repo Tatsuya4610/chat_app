@@ -25,6 +25,9 @@ class SignupScreen extends HookWidget {
       };
     }, const []);
 
+    // 入力中のメールアドレス表示するために保持する変数
+    final emailText = useState<String>('');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('会員登録'),
@@ -44,6 +47,8 @@ class SignupScreen extends HookWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: 24),
+                Text(emailText.value),
                 const SizedBox(height: 150),
                 Form(
                   key: formKey,
@@ -62,6 +67,10 @@ class SignupScreen extends HookWidget {
                             return '有効なメールアドレスを入力してください';
                           }
                           return null;
+                        },
+                        onChanged: (value) {
+                          // emailTextに代入。
+                          emailText.value = value;
                         },
                       ),
                       const SizedBox(height: 16),
