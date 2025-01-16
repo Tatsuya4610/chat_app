@@ -28,21 +28,21 @@ class AppButton extends StatelessWidget {
         height: 46,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: reverse ? Colors.white : AppColors.mainBeige,
+          color: reverse ? Colors.white : AppColors.mainBlue,
           borderRadius:
               BorderRadius.circular(_borderRadius), // borderRadiusは角の丸み。
           border:
               // borderは周りの線の設定。reverse(bool) ?  true : false
               // reverseがtrueの場合はBorder.all(width: 2, color: AppColors.mainBeige)
               // reverseがfalseの場合はnullで設定しない。
-              reverse ? Border.all(width: 2, color: AppColors.mainBeige) : null,
+              reverse ? Border.all(width: 2, color: AppColors.mainBlue) : null,
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: reverse ? AppColors.mainBeige : Colors.white,
+              color: reverse ? AppColors.mainBlue : Colors.white,
               fontSize: 15,
             ),
           ),
