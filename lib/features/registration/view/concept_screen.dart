@@ -1,3 +1,5 @@
+import 'package:chat_app/features/registration/view/login_screen.dart';
+import 'package:chat_app/features/registration/view/signup_screen.dart';
 import 'package:chat_app/widgets/button/app_button.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +32,14 @@ class ConceptScreen extends StatelessWidget {
                     label: '会員登録', // 実装した引数に文字列を渡している。文字だけ異なるため共通利用する例。
                     onTap: () {
                       // ボタンが押された際のアクションはここに書く。
+                      // SignupScreenを開く。
+                      Navigator.of(context).push(
+                        MaterialPageRoute<SignupScreen>(
+                          builder: (_) {
+                            return const SignupScreen();
+                          },
+                        ),
+                      );
                     },
                   ),
                   const SizedBox(
@@ -39,7 +49,16 @@ class ConceptScreen extends StatelessWidget {
                   AppButton(
                     label: 'ログイン',
                     reverse: true,
-                    onTap: () {},
+                    onTap: () {
+                      // LoginScreenを開く。
+                      Navigator.of(context).push(
+                        MaterialPageRoute<LoginScreen>(
+                          builder: (_) {
+                            return const LoginScreen();
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 32),
                 ],

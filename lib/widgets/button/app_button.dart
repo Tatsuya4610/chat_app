@@ -21,7 +21,6 @@ class AppButton extends StatelessWidget {
       // GestureDetectorで囲み、onTapを設定するとGestureDetectorのchildを押されたら
       // onTapが反応する
       onTap: () {
-        print('タップしました。');
         onTap();
       },
       child: Container(
