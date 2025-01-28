@@ -1,4 +1,5 @@
 import 'package:chat_app/widgets/button/app_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -20,6 +21,12 @@ class SignupScreen extends HookWidget {
     // useEffectを記載する。
     useEffect(() {
       print('画面が表示されたタイミング');
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        print('未ログイン');
+      } else {
+        print('${user.email}のユーザーでログイン');
+      }
       return () {
         print('画面が破棄されたタイミング');
       };
@@ -27,6 +34,38 @@ class SignupScreen extends HookWidget {
 
     // 入力中のメールアドレス表示するために保持する変数
     final emailText = useState<String>('');
+
+    Future<void> registerWithEmailAndPassword({
+      required String email,
+      required String password,
+    }) async {
+      try {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        print('登録成功: ${credential.user?.email}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('登録に成功しました: ${credential.user?.email}')),
+        );
+      } on FirebaseAuthException catch (e) {
+        String errorMessage = '登録に失敗しました';
+        if (e.code == 'weak-password') {
+          errorMessage = 'パスワードが短すぎます。';
+        } else if (e.code == 'email-already-in-use') {
+          errorMessage = 'このメールアドレスは既に登録されています。';
+        } else if (e.code == 'invalid-email') {
+          errorMessage = '無効なメールアドレスです。';
+        }
+        print('エラー: $errorMessage');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      } catch (e) {
+        print('予期しないエラー: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('予期しないエラーが発生しました')),
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -98,13 +137,17 @@ class SignupScreen extends HookWidget {
                         ),
                         child: AppButton(
                           label: '登録',
-                          onTap: () {
+                          onTap: () async {
                             final validate = formKey.currentState!.validate();
                             if (validate) {
                               final inputEmail = emailTextController.text;
                               final inputPassword = emailTextController.text;
                               print('入力されたメールアドレス$inputEmail');
                               print('入力されたパスワード$inputPassword');
+                              await registerWithEmailAndPassword(
+                                email: inputEmail,
+                                password: inputPassword,
+                              );
                             }
                           },
                         ),
