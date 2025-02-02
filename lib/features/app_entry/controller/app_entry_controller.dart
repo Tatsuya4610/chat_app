@@ -20,17 +20,21 @@ class AppEntryController extends StateNotifier<AsyncValue<UserStatus>> {
 
   Future<void> _initState() async {
     // ローディング画面がわかりやすいように2秒遅延させる。
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      await Future.delayed(Duration(seconds: 2));
 
-    final user = FirebaseAuth.instance.currentUser;
+      final user = FirebaseAuth.instance.currentUser;
 
-    if (user == null) {
-      // FirebaseAuthからuserが取得できない場合は未ログインなため、notSignedIn状態。
-      state = const AsyncData(UserStatus.notSignedIn);
-      return;
+      if (user == null) {
+        // FirebaseAuthからuserが取得できない場合は未ログインなため、notSignedIn状態。
+        state = const AsyncData(UserStatus.notSignedIn);
+        return;
+      }
+      // ログイン済みのため、`UserStatus.signedIn` を設定
+      state = const AsyncData(UserStatus.signedIn);
+    } catch (e, stackTrace) {
+      state = AsyncError(e, stackTrace);
     }
-    // ログイン済みのため、`UserStatus.signedIn` を設定
-    state = const AsyncData(UserStatus.signedIn);
   }
 
   // エラー時など再読み込みさせるメソッド
