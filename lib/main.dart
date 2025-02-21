@@ -1,7 +1,9 @@
-import 'package:chat_app/features/registration/view/concept_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'features/app_entry/view/app_entry_view_widget.dart';
+import 'features/app_entry/view/app_entry_widget.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -9,7 +11,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +29,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ConceptScreen(),
+      home: AppEntryViewWidget(),
+      // home: AppEntryWidget(),
     );
   }
 }
